@@ -1,0 +1,49 @@
+--Exemplo 04 esteira, adicionei sensor c para verificar 
+--presenca da peça na esteira e l2 para indicar 
+--situaçoes inconsistentes, erro de leitura de sensor
+
+--Descriçao em VHDL circuito para verificar tamanho correto de 
+--peça em uma esteira, o tamanho correto deve esta entre os sensores
+--a e b, a lampada de tamanho incorreto acende se a altura peça estiver fora 
+--da area entre estes sensores
+-- Autor: George Maximo, Data: 14/10/2019 | versao 1.0.0
+--
+
+	library ieee;
+	use ieee.std_logic_1164.all;
+
+	entity ex04_esteira is port
+	(
+		A	: 	in std_logic;
+		B	:	in std_logic;
+		C	:	in std_logic;
+		
+		L1	:	out std_logic;
+		L2	:	out std_logic
+	);
+	end ex04_esteira;
+
+	architecture logica of ex04_esteira is
+
+--Sinais entrada or lampada tamanho incorreto	
+	signal OR1	:	std_logic;
+	signal OR2	:	std_logic;
+		
+--Sinais entrada or lampada erro sensor 
+	signal OR3	:	std_logic;
+	signal OR4	:	std_logic;
+
+	
+	begin
+	
+		OR1 <= (not a) and (not b) and c;
+		OR2 <= a and b and c;
+		
+		OR3 <= b and (not c);
+		OR4 <= a and (not b);
+	
+	
+		L1 <= OR1 or OR2;
+		L2 <= OR3 or OR4;
+		
+	end logica;

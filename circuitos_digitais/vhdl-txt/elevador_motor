@@ -1,0 +1,52 @@
+--Circuito controle elevador 3 pavimentos em VHDL
+--
+-- Autor: George Maximo, Data: 08/10/2019 | versao 1.0.0
+--
+
+	library IEEE;
+	use IEEE.std_logic_1164.all;
+	
+	entity elevador_motor is port
+	(
+		
+		MS, MD		:	INOUT	std_logic; --MS: Motor subindo; MD: Motor descendo
+		A0, A1, A2	:	in		std_logic; --Sensores que indicao a posicao do elevador	
+		P				:	out	std_logic; --Controle de porta, P = 0 fecha; P = 1 abri
+		B0, B1, B2	:	in		std_logic  --Botoes para chamar elevador
+		
+		
+		
+	);
+	end elevador_motor;
+	
+	architecture hardware of elevador_motor is
+	--Sinais 
+	signal Andar0	:		std_logic; --Sinal que indica que o elevador esta no andar 0
+	signal Andar1	:		std_logic; --Sinal que indica que o elevador esta no andar 1
+	signal Andar2	:		std_logic; --Sinal que indica que o elevador esta no andar 2
+	
+	signal Botao0	:		std_logic; --Sinal que indica que o elevador foi chamado para o andar 0
+	signal Botao1	:		std_logic; --Sinal que indica que o elevador foi chamado para o andar 1
+	signal Botao2	:		std_logic; --Sinal que indica que o elevador foi chamado para o andar 2
+	
+	--
+	begin
+		
+		Andar0 <= A0 and (not A1) and (not A2);
+		Andar1 <= (not A0) and A1 and (not A2);
+		Andar2 <= (not A0) and (not A1) and A2;
+		
+		Botao0 <= B0 and (not B1) and (not B2);
+		Botao1 <= (not B0) and B1 and (not B2);
+		Botao2 <= (not B0) and (not B1) and B2;
+		
+		
+		MS <= (Botao2 and Andar0) or (Botao2 and Andar1) or (Botao1 and Andar0);
+		MD <= (Botao0 and Andar1) or (Botao0 and Andar2) or (Botao1 and Andar2);
+		
+		P	<= (not(MS or MD)) and (Andar0 or Andar1 or Andar2);
+		
+		
+	end hardware;
+	
+	

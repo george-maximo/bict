@@ -1,0 +1,32 @@
+--Circuito para elevador 3 pavimentos em VHDL
+--
+-- Autor: George Maximo, Data: 21/10/2019 | versao 1.0.0
+--
+
+	library IEEE;
+	use IEEE.std_logic_1164.all;
+	
+	entity elevador is port
+	(
+		M				:	in		std_logic;
+		A0, A1, A2	:	in		std_logic;
+		P				:	out	std_logic
+		
+	);
+	end elevador;
+	
+	architecture hardware of elevador is
+	--Sinais motor M = 1 ligado / M = 0 desligado
+	signal Andar0	:		std_logic;
+	signal Andar1	:		std_logic;
+	signal Andar2	:		std_logic;
+	--
+	begin
+		
+		Andar0 <= A0 and (not A1) and (not A2);
+		Andar1 <= (not A0) and A1 and (not A2);
+		Andar2 <= (not A0) and (not A1) and A2;
+		
+		P <= (not M) and (Andar0 or Andar1 or Andar2);
+	end hardware;
+	

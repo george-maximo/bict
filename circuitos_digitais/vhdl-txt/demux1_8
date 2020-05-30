@@ -1,0 +1,35 @@
+-- VHDL demux 1 para 8
+-- George Maximo de Sousa
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+
+entity demux1_8 is port
+(
+	E		:	in std_logic;
+	X		:	out std_logic_vector(7 downto 0);
+	Sel 	:	in std_logic_vector(2 downto 0)
+	
+);
+end demux1_8;
+
+architecture hardware of demux1_8 is
+begin
+process(Sel, E)
+begin
+	
+	case Sel is
+		when "000" => X(0) <= E;
+		when "001" => X(1) <= E;
+		when "010" => X(2) <= E;
+		when "011" => X(3) <= E;
+		when "100" => X(4) <= E;
+		when "101" => X(5) <= E;
+		when "110" => X(6) <= E;
+		when "111" => X(7) <= E;
+	end case;
+end process;
+		
+		
+end hardware;
